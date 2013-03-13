@@ -51,6 +51,7 @@ class LudoMarkDown
     }
 
     private function parseInlineCode($text){
-        return $this->parseTag($text, "`", "code");
+        $ret = $this->parseTag($text, "``", "code");
+        return $this->parseTag($ret, "`", "code");
     }
 }
