@@ -8,7 +8,6 @@
 class LudoComments extends LudoDBCollection
 {
     protected $config = array(
-        "sql" => "select * from comments "
-
+        "sql" => "select * from ludo_comment order by id desc"
     );
 }
