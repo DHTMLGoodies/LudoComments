@@ -12,7 +12,21 @@ class LudoMarkDown
         $text = $this->parseItalic($text);
         $text = $this->parseHeadings($text);
         $text = $this->parseInlineCode($text);
+        $text = $this->insertParagraphs($text);
         return $text;
+    }
+
+    private function insertParagraphs($text){
+        $ret = "";
+        $tokens = explode("\n", $text);
+        foreach($tokens as $token){
+            if(substr($token,0,2) != '<h')$ret.="<p>".$token."</p>";
+            else $ret.=$token;
+            $ret.="\n\n";
+        }
+        return rtrim($ret,"\n\n")."\n";
+
+
     }
 
     private function parseBold($text){
