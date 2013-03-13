@@ -41,7 +41,7 @@ class LudoMarkDown
     private function parseTag($text, $markdown, $tag){
         $htmlTags = array("</". $tag . ">", "<".$tag.">");
         $tokens = explode($markdown, $text);
-        $ret = ""        ;
+        $ret = "";
         for($i=0,$count=count($tokens);$i<$count;$i++){
             if($i)$ret.=$htmlTags[$i%2];
             $ret.= $tokens[$i];

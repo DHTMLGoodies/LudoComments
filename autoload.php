@@ -87,6 +87,7 @@ spl_autoload_register(
                 'ludodbutilitytest' => '/ludoDB/Tests/LudoDBUtilityTest.php',
                 'ludomarkdown' => '/LudoMarkDown.php',
                 'manager' => '/ludoDB/Tests/classes/Manager.php',
+                'markdown_parser' => '/markdown.php',
                 'markdowntest' => '/Tests/MarkDownTest.php',
                 'movie' => '/ludoDB/Tests/classes/Movie.php',
                 'mysqlitests' => '/ludoDB/Tests/MysqlITests.php',
@@ -111,6 +112,7 @@ spl_autoload_register(
                 'testnodeswithleafs' => '/ludoDB/Tests/classes/TestNodesWithLeafs.php',
                 'testtable' => '/ludoDB/Tests/classes/TestTable.php',
                 'testtimer' => '/ludoDB/Tests/classes/TestTimer.php',
+                'textile' => '/markdown.php',
                 'xhpprofiling' => '/ludoDB/xhprof/XHPProfiling.php',
                 'xhprofruns_default' => '/ludoDB/xhprof/xhprof_lib/utils/xhprof_runs.php'
             );
