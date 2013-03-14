@@ -20,6 +20,7 @@ class MarkDownTest extends PHPUnit_Framework_TestCase
         $texts = array(
             'Alf Magne __Test__ end',
             'Alf Magne __Test__ end __bold__',
+            'Alf Magne **Test** end __bold__',
             '\*this text is surrounded by literal asterisks\*');
 
         $this->assertTexts($texts);
@@ -29,8 +30,12 @@ class MarkDownTest extends PHPUnit_Framework_TestCase
     {
         $m = new LudoMarkDown();
         foreach ($texts as $text) {
-            $this->assertEquals(Markdown($text), $m->get($text));
+            $this->assertEquals($this->withoutNewlines(Markdown($text)), $this->withoutNewlines($m->get($text)));
         }
+    }
+
+    private function withoutNewlines($text){
+        return trim(preg_replace("/[\n\r]/s", "", $text));
     }
 
     /**
@@ -38,10 +43,10 @@ class MarkDownTest extends PHPUnit_Framework_TestCase
      */
     public function shouldHandleItalic()
     {
-        // given
-        $m = new LudoMarkDown();
         // when
-        $texts = array('Alf Magne _Test_ end', 'Alf Magne __Test__ end _bold_');
+        $texts = array(
+            'Alf Magne _Test_ end',
+            'Alf Magne __Test__ end _bold_');
         // then
         $this->assertTexts($texts);
     }
@@ -89,8 +94,8 @@ class MarkDownTest extends PHPUnit_Framework_TestCase
     {
         $m = new LudoMarkDown();
 
-        $this->assertEquals("&copy;", $m->get("&copy;"));
-        $this->assertEquals("AT&amp;T", $m->get("AT&T;"));
+        $this->assertEquals("<p>&copy;</p>\n", $m->get("&copy;"));
+        $this->assertEquals("<p>AT&amp;T</p>\n", $m->get("AT&T"));
     }
 
     /**
@@ -100,7 +105,7 @@ class MarkDownTest extends PHPUnit_Framework_TestCase
     {
         $m = new LudoMarkDown();
 
-        $this->assertEquals("4 &lt; 5", $m->get("4 < 5"));
+        $this->assertEquals("<p>4 &lt; 5</p>\n", $m->get("4 < 5"));
         $this->assertEquals("<h1>", $m->get("<h1>"));
     }
 
