@@ -13,9 +13,10 @@ class LudoMarkDown
     {
         $text = $this->addEntities($text);
         $text = $this->escapeSpecial($text);
-
         $text = $this->parseHeadings($text);
         $text = $this->parseUnorderedLists($text);
+        $text = $this->insertBlockQuotes($text);
+        $text = $this->parseCodes($text);
         $text = $this->parseBold($text);
         $text = $this->parseItalic($text);
         $text = $this->parseInlineCode($text);
@@ -48,7 +49,7 @@ class LudoMarkDown
         $ret = "";
         $tokens = explode("\n", $text);
         foreach ($tokens as $token) {
-            if (strlen($token) && !preg_match("/^<(" . $this->blockElements . ")/si", $token)) {
+            if (strlen(ltrim($token)) == strlen($token) && strlen($token) && !preg_match("/^<(" . $this->blockElements . ")/si", $token)) {
                 $ret .= "<p>" . $token . "</p>";
             } else $ret .= $token;
             if (strlen($token)) $ret .= "\n\n";
@@ -65,6 +66,14 @@ class LudoMarkDown
     private function parseItalic($text)
     {
         return $this->parseTag($text, array("_", "*"), "em");
+    }
+
+    private function insertBlockQuotes($text){
+        $tokens = explode("\n", $text);
+
+
+        return implode("\n", $tokens);
+
     }
 
     private function parseUnorderedLists($text)
@@ -104,13 +113,36 @@ class LudoMarkDown
         return implode("\n", $ret);
     }
 
+    private function parseCodes($text){
+        $tokens = explode("\n", $text);
+        $ret = array();
+        $started = false;
+        foreach ($tokens as $token) {
+            $text = $token;
+            if (substr($token, 0,2) === "\t"){
+                $token = substr($token, 1);
+            }else if(substr($token,0,4) == "    "){
+                $token = substr($token, 4);
+            }
+            if (strlen($token) < strlen($text)) {
+                if(!$started)$token = "<pre><code>".$token;
+                $started = true;
+            }else{
+                if($started)$token = $token."</code></pre>";
+                $started = false;
+            }
+            $ret[] = $token;
+        }
+        if($started)$ret[] = "</code></pre>";
+        return implode("\n", $ret);
+    }
+
     private function parseTag($text, $markdown, $tag)
     {
         if (!is_array($markdown)) $markdown = array($markdown);
 
         $ret = "";
         foreach ($markdown as $markdownTag) {
-            $ret = "";
             $htmlTags = array("</" . $tag . ">", "<" . $tag . ">");
             $tokens = explode($markdownTag, $text);
             $ret = "";
@@ -126,7 +158,6 @@ class LudoMarkDown
 
     private function parseInlineCode($text)
     {
-        $ret = $this->parseTag($text, "``", "code");
-        return $this->parseTag($ret, "`", "code");
+        return $this->parseTag($text, array("``","`"), "code");
     }
 }

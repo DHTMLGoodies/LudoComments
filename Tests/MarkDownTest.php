@@ -34,7 +34,8 @@ class MarkDownTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    private function withoutNewlines($text){
+    private function withoutNewlines($text)
+    {
         return trim(preg_replace("/[\n\r]/s", "", $text));
     }
 
@@ -78,8 +79,9 @@ class MarkDownTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shouldHandleCodeUsingTab(){
-        $texts= array(
+    public function shouldHandleCodeUsingTab()
+    {
+        $texts = array(
             "Here is an example of AppleScript:\n\n    tell application 'Foo'\n        beep\n    end tell",
             "    <div class='footer'>\n        &copy; 2004 Foo Corporation\n    </div>",
             "```\nThis is my code ```");
@@ -115,8 +117,11 @@ class MarkDownTest extends PHPUnit_Framework_TestCase
     public function shouldHandleBlockQuote()
     {
         // when
-        $texts = array("> This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,\n> consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\n> Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\n>\n>Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse\n> id sem consectetuer libero luctus adipiscing.",
-                        "> This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\n>Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse\nid sem consectetuer libero luctus adipiscing.");
+        $texts = array(
+            "> This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,\n> consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\n> Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\n>\n>Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse\n> id sem consectetuer libero luctus adipiscing.",
+            "> This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\n>Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse\nid sem consectetuer libero luctus adipiscing.",
+            "> ## This is a header.\n>\n\n> 1.   This is the first list item.\n> 2.   This is the second list item.\n> \n> Here's some example code:\n>\n\n>     return shell_exec('echo \$input | \$markdown_script');"
+        );
 
         $this->assertTexts($texts);
     }
@@ -135,9 +140,10 @@ class MarkDownTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shouldHandleNestedBlockQuotes(){
+    public function shouldHandleNestedBlockQuotes()
+    {
         $texts = array("> This is the first level of quoting.\n>\n> > This is nested blockquote.\n>\n> Back to the first level.",
-        "> ## This is a header.\n>\n> 1.   This is the first list item.\n> 2.   This is the second list item.\n>\n> Here's some example code:\n>\n>     return shell_exec('echo \$input | \$markdown_script');");
+            "> ## This is a header.\n>\n> 1.   This is the first list item.\n> 2.   This is the second list item.\n>\n> Here's some example code:\n>\n>     return shell_exec('echo \$input | \$markdown_script');");
 
         $this->assertTexts($texts);
     }
@@ -145,7 +151,8 @@ class MarkDownTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shouldHandleLists(){
+    public function shouldHandleLists()
+    {
         $texts = array(
             "*   Red\n*   Green\n*   Blue",
             "+   Red\n+   Green\n+   Blue",
@@ -162,7 +169,8 @@ class MarkDownTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shouldHandleOrderedLists(){
+    public function shouldHandleOrderedLists()
+    {
         $texts = array(
             "1.  Bird\n2.  McHale\n3.  Parish",
             "1.  Bird\n1.  McHale\n1.  Parish",
